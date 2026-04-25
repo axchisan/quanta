@@ -14,32 +14,29 @@
 
 ### T001 — Scaffolding monorepo (pnpm + Turborepo)
 - **Owner:** coordinator
-- **Status:** in_progress (pausada por B001: falta Node + pnpm)
+- **Status:** done
 - **Priority:** P0
 - **Sprint:** 0
 - **BlockedBy:** —
-- **Description:** Inicializar repo git, crear estructura de carpetas del plan, `pnpm-workspace.yaml`, `turbo.json`, `package.json` raíz con scripts (`dev`, `build`, `test`, `lint`, `typecheck`). `.gitignore` apropiado para Node + Next + Phaser.
-- **Acceptance:**
-  - `pnpm install` ejecuta sin errores.
-  - `pnpm typecheck` corre (aunque no haya código).
-  - Repo subido a GitHub (`github.com/<user>/quanta`).
-- **Notes:** Coordinator hace este por bootstrapping; después de T001 los especialistas arrancan.
+- **Completed:** 2026-04-25
 
 ### T002 — CI básica en GitHub Actions
 - **Owner:** coordinator
-- **Status:** pending
+- **Status:** done
 - **Priority:** P0
 - **Sprint:** 0
 - **BlockedBy:** T001
+- **Completed:** 2026-04-25
 - **Description:** Workflow `.github/workflows/ci.yml` que en cada push/PR ejecuta: `pnpm install --frozen-lockfile`, `pnpm lint`, `pnpm typecheck`, `pnpm test`. Cache de pnpm store y Turborepo remoto (opcional).
 - **Acceptance:** PR de prueba pasa por los 4 checks.
 
 ### T003 — Skeleton apps/web (Next.js 15)
 - **Owner:** ui-web
-- **Status:** pending
+- **Status:** done
 - **Priority:** P0
 - **Sprint:** 0
 - **BlockedBy:** T001
+- **Completed:** 2026-04-25
 - **Description:** `apps/web` con Next.js 15 (App Router), TypeScript estricto, Tailwind v4 configurado, shadcn/ui inicializado, una landing trivial (`<h1>Quanta</h1>`). `apps/web/CLAUDE.md` con detalles internos.
 - **Acceptance:**
   - `pnpm --filter @quanta/web dev` levanta en localhost:3000 mostrando la landing.
@@ -47,10 +44,11 @@
 
 ### T004 — Skeleton apps/game-server (Colyseus)
 - **Owner:** backend-realtime
-- **Status:** pending
+- **Status:** done
 - **Priority:** P0
 - **Sprint:** 0
 - **BlockedBy:** T001
+- **Completed:** 2026-04-25
 - **Description:** `apps/game-server` con Colyseus + Node 22 + TypeScript estricto. Una room placeholder `LobbyRoom` que acepta conexiones y broadcasts un mensaje cada 5s. Dockerfile listo. `apps/game-server/CLAUDE.md`.
 - **Acceptance:**
   - `pnpm --filter @quanta/game-server dev` levanta en localhost:2567.
@@ -58,10 +56,11 @@
 
 ### T005 — Skeleton packages/game-engine (Phaser)
 - **Owner:** game-engine
-- **Status:** pending
+- **Status:** done
 - **Priority:** P0
 - **Sprint:** 0
 - **BlockedBy:** T001
+- **Completed:** 2026-04-25
 - **Description:** `packages/game-engine` con Phaser 3, TypeScript estricto. Una scene placeholder `BootScene` que muestra texto "Quanta Game Engine" y emite evento `engine:ready`. Export desde `index.ts`. `packages/game-engine/CLAUDE.md`.
 - **Acceptance:**
   - `pnpm --filter @quanta/game-engine build` produce bundle.
@@ -69,10 +68,11 @@
 
 ### T006 — Skeleton packages/ai-gateway
 - **Owner:** ai-gateway
-- **Status:** pending
+- **Status:** done
 - **Priority:** P0
 - **Sprint:** 0
 - **BlockedBy:** T001
+- **Completed:** 2026-04-25
 - **Description:** `packages/ai-gateway` con TypeScript estricto, Zod, fetch nativo. Estructura de carpetas: `providers/`, `cache/`, `prompts/`, `chain.ts`, `config.ts`. Interfaz pública `AIGateway` definida (sin implementación real todavía, retorna stub). Tests con un mock provider que verifica fallback chain. `packages/ai-gateway/CLAUDE.md`.
 - **Acceptance:**
   - `pnpm --filter @quanta/ai-gateway test` pasa con test de fallback.
@@ -80,10 +80,11 @@
 
 ### T007 — Skeleton packages/db (esquema + migración inicial)
 - **Owner:** backend-realtime
-- **Status:** pending
+- **Status:** done
 - **Priority:** P0
 - **Sprint:** 0
 - **BlockedBy:** T001
+- **Completed:** 2026-04-25
 - **Description:** `packages/db` con Supabase CLI configurado, primera migración `0001_initial_schema.sql` que crea las 8 tablas core (`profiles`, `guest_sessions`, `rooms`, `room_memberships`, `challenges`, `challenge_attempts`, `ai_cache`, `challenge_assets`) según `docs/06-data-model.md`. RLS policies básicas. Seeds vacíos.
 - **Acceptance:**
   - `pnpm db:start && pnpm db:migrate` levanta Supabase local con esquema.

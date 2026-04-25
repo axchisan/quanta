@@ -1,7 +1,7 @@
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'colyseus';
-import { LobbyRoom } from './rooms/LobbyRoom.js';
+import { LobbyRoom } from './rooms/LobbyRoom';
 
 const app = express();
 const httpServer = createServer(app);

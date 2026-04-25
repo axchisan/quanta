@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { eventEmitter } from './events.js';
+import { eventEmitter } from '../events';
 
 export class BootScene extends Phaser.Scene {
   constructor() {

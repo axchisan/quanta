@@ -1,1 +1,1 @@
-export { BootScene, eventEmitter } from './scenes/BootScene.js';
+export { BootScene, eventEmitter } from './scenes/BootScene';

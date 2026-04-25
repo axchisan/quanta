@@ -20,12 +20,15 @@ export class AIGateway {
     const errors: string[] = [];
 
     for (let i = this.currentIndex; i < this.providers.length; i++) {
+      const provider = this.providers[i];
+      if (!provider) continue;
+      
       try {
-        const result = await this.providers[i].complete(prompt);
+        const result = await provider.complete(prompt);
         this.currentIndex = i;
         return result;
       } catch (error) {
-        errors.push(`${this.providers[i].name}: ${error}`);
+        errors.push(`${provider.name}: ${error}`);
       }
     }
 
