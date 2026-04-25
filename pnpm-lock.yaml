@@ -57,6 +57,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@quanta/game-engine':
+        specifier: workspace:*
+        version: link:../../packages/game-engine
       '@quanta/types':
         specifier: workspace:*
         version: link:../../packages/types
@@ -66,6 +69,9 @@ importers:
       next:
         specifier: ^15.1.0
         version: 15.5.15(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      phaser:
+        specifier: ^3.80.0
+        version: 3.90.0
       react:
         specifier: ^19.0.0
         version: 19.2.5
@@ -170,6 +176,9 @@ importers:
       phaser:
         specifier: ^3.80.0
         version: 3.90.0
+      react:
+        specifier: ^19.0.0
+        version: 19.2.5
     devDependencies:
       '@quanta/config':
         specifier: workspace:*
@@ -177,6 +186,9 @@ importers:
       '@types/node':
         specifier: ^22.0.0
         version: 22.19.17
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.14
       eslint:
         specifier: ^9.0.0
         version: 9.39.4(jiti@2.6.1)
