@@ -39,9 +39,10 @@ Ver `state/TASKS.md` para detalles. Resumen:
 > Formato: `YYYY-MM-DD HH:MM — <rol>: nota corta`
 
 - 2026-04-18 — coordinator: docs maestra completa (vision, architecture, roadmap, conventions, ADRs, workflow, data-model, ai-strategy, game-design, briefings agentes, state, runbooks, templates). Próximo: scaffolding monorepo.
+- 2026-04-19 — coordinator: equipo multi-agente levantado (4 especialistas + coordinator). Los 4 especialistas hicieron check-in y quedan draftando previews de T003/T004+T007/T005/T006 mientras arranco T001. T001 pausada por B001 (Node+pnpm no instalados, esperando humano).
 
 ### Blockers activos
-Ver `state/BLOCKERS.md`. Ninguno crítico al iniciar.
+Ver `state/BLOCKERS.md`. **B001 [ESCALATION]** — Node + pnpm no instalados; bloquea cierre de T001 y toda la cadena P0.
 
 ---
 

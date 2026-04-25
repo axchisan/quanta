@@ -14,7 +14,7 @@
 
 ### T001 — Scaffolding monorepo (pnpm + Turborepo)
 - **Owner:** coordinator
-- **Status:** pending
+- **Status:** in_progress (pausada por B001: falta Node + pnpm)
 - **Priority:** P0
 - **Sprint:** 0
 - **BlockedBy:** —

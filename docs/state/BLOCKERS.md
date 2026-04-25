@@ -10,13 +10,17 @@
 
 ## Activos
 
-(Ninguno al iniciar Sprint 0.)
+(Ninguno.)
 
 ---
 
 ## Resueltos recientes
 
-(Vacío.)
+### B001 — Tooling Node + pnpm no instalado — **RESUELTO 2026-04-19**
+- **Tipo:** [ESCALATION]
+- **Reportado:** 2026-04-19 por coordinator
+- **Resuelto:** 2026-04-19 por humano (axchisan). Node v25.9.0, npm 11.12.1, pnpm 10.33.0 instalados.
+- **Nota:** Node 25 (no LTS 22). Revisar en T001 si fijamos `engines: node >=22.11 <26` o restringimos. Conviene dejar Node 22 LTS como recomendado en `.nvmrc` pero permitir 25 para dev local.
 
 ---
 
