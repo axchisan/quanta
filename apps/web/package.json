@@ -11,13 +11,14 @@
     "clean": "rm -rf .next node_modules"
   },
   "dependencies": {
-    "@quanta/ui": "workspace:*",
-    "@quanta/types": "workspace:*",
     "@quanta/game-engine": "workspace:*",
+    "@quanta/types": "workspace:*",
+    "@quanta/ui": "workspace:*",
     "next": "^15.1.0",
     "phaser": "^3.80.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
     "@quanta/config": "workspace:*",
