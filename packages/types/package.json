@@ -1,0 +1,16 @@
+{
+  "name": "@quanta/types",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist node_modules"
+  },
+  "devDependencies": {
+    "@quanta/config": "workspace:*",
+    "eslint": "^9.0.0",
+    "typescript": "^5.6.3"
+  }
+}

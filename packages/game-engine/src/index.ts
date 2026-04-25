@@ -1,0 +1,1 @@
+export { BootScene, eventEmitter } from './scenes/BootScene.js';
