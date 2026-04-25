@@ -46,6 +46,28 @@ Ver `state/BLOCKERS.md`. **B001 [ESCALATION]** — Node + pnpm no instalados; bl
 
 ---
 
+## Sprint 1 — MVP Jugable
+
+**Fechas:** 2026-04-26 → 2026-05-02 (1 semana)
+**Fase:** 1 — MVP Jugable
+**Objetivo del sprint:** tener 3 retos jugables (caída libre, trivia IA, balanceo ecuaciones) con sistema de puntaje.
+
+### Definition of Done del sprint
+- [x] Reto Caída Libre (Phaser + slider predicción)
+- [x] Reto Trivia IA (tipos + stub generator)  
+- [x] Reto Balanceo de Ecuaciones (input coefficients)
+- [x] Sistema de puntaje unificado (zustand store + persist)
+
+### Updates
+
+- 2026-04-25 — coordinator: Sprint 0 complete. Starting Sprint 1 MVP features.
+- 2026-04-25 — coordinator: Caída Libre Phaser scene + FreeFallChallenge types.
+- 2026-04-25 — coordinator: Trivia IA types + stub generator in ai-gateway.
+- 2026-04-25 — coordinator: Equation balancing page with coefficient inputs.
+- 2026-04-25 — coordinator: Game score store with zustand (persist, getTotalScore, getAccuracy).
+
+---
+
 ## Sprint history (resumen)
 
 > Después de cerrar un sprint, mover el contenido completo a `state/CHANGELOG.md` y dejar acá solo una línea de resumen.
