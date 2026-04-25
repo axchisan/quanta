@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 import { FreeFallScene } from '@/lib/game/FreeFallScene';
 import type { FreeFallChallenge, ChallengeResult } from '@/lib/game/types';
 

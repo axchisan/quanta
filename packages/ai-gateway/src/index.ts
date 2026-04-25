@@ -1,14 +1,12 @@
 import type { AIResponse, LLMProvider, AIGatewayConfig } from './types.js';
 
 export class AIGateway {
-  private providers: LLMProvider[];
+  private providers: LLMProvider[] = [];
   private currentIndex = 0;
 
-  constructor(config: AIGatewayConfig) {
-    this.providers = [];
-  }
+  constructor(_config: AIGatewayConfig) {}
 
-  async complete(prompt: string): Promise<AIResponse> {
+  async complete(_prompt: string): Promise<AIResponse> {
     return {
       content: 'stub response',
       provider: 'stub',

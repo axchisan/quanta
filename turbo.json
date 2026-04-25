@@ -23,6 +23,7 @@
       "inputs": ["src/**", "tests/**", "vitest.config.*", "playwright.config.*"]
     },
     "lint": {
+      "cache": false,
       "outputs": []
     },
     "typecheck": {

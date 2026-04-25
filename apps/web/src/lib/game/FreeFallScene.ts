@@ -1,5 +1,5 @@
-import Phaser from 'phaser';
-import type { FreeFallChallenge, FreeFallPayload, FreeFallSolution } from './types';
+import * as Phaser from 'phaser';
+import type { FreeFallChallenge, FreeFallSolution } from './types';
 
 export interface FreeFallSceneConfig {
   challenge: FreeFallChallenge;
@@ -27,9 +27,8 @@ export class FreeFallScene extends Phaser.Scene {
 
   create() {
     const { width, height } = this.scale;
-    const payload = this.config.challenge.payload as FreeFallPayload;
     
-    this.gravity = payload.gravity ?? 10;
+    this.gravity = this.config.challenge.payload.gravity ?? 10;
     const height_ = 45;
     this.userPrediction = Math.sqrt((2 * height_) / this.gravity);
     
@@ -83,7 +82,6 @@ export class FreeFallScene extends Phaser.Scene {
     this.add.text(panelX, panelY - 70, 'Predice el tiempo de caida:', {
       fontSize: '20px',
       color: '#ffffff',
-      fontFamily: 'Space Grotesk',
     }).setOrigin(0.5);
 
     this.predictedTimeText = this.add.text(panelX, panelY - 20, `${this.userPrediction.toFixed(1)} s`, {
@@ -154,13 +152,12 @@ export class FreeFallScene extends Phaser.Scene {
     }).setOrigin(0.5).setVisible(false);
   }
 
-  private drop() {
+private drop() {
     this.dropped = true;
     const solution = this.config.challenge.solution as FreeFallSolution;
     const actualTime = solution.answer;
-    const tolerance = solution.tolerance ?? 0.5;
     
-    const isCorrect = Math.abs(this.userPrediction - actualTime) <= tolerance;
+    const isCorrect = Math.abs(this.userPrediction - actualTime) <= 0.5;
     const timeTakenMs = Date.now() - this.startTime;
 
     const targetY = this.ground.y - 10;
@@ -171,7 +168,7 @@ export class FreeFallScene extends Phaser.Scene {
       duration: actualTime * 1000,
       ease: 'Linear',
       onComplete: () => {
-        this.showResult(isCorrect, actualTime);
+        this.showResult(isCorrect);
         this.config.onComplete({
           score: this.calculateScore(isCorrect, timeTakenMs),
           isCorrect,
@@ -181,14 +178,14 @@ export class FreeFallScene extends Phaser.Scene {
     });
   }
 
-  private showResult(isCorrect: boolean, actualTime: number) {
+  private showResult(isCorrect: boolean) {
     const { width, height } = this.scale;
     
     const bgColor = isCorrect ? 0x22c55e : 0xef4444;
     const resultIcon = isCorrect ? '✓' : '✗';
     const resultMessage = isCorrect 
       ? '¡Correcto!' 
-      : `Incorrecto. Tiempo real: ${actualTime.toFixed(1)}s`;
+      : 'Incorrecto. Intentalo de nuevo';
 
     this.cameras.main.flash(200, isCorrect ? 34 : 239, isCorrect ? 68 : 68, isCorrect ? 46 : 68);
 

@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import type { FreeFallChallenge, FreeFallPayload, FreeFallSolution } from '../types';
+import type { FreeFallChallenge, FreeFallSolution } from '../types';
 
 export interface FreeFallSceneConfig {
   challenge: FreeFallChallenge;
@@ -12,14 +12,10 @@ export class FreeFallScene extends Phaser.Scene {
   private dropped = false;
   private object!: Phaser.GameObjects.Arc;
   private ground!: Phaser.GameObjects.Rectangle;
-  private heightLine!: Phaser.GameObjects.Line;
-  private heightText!: Phaser.GameObjects.Text;
-  private slider!: Phaser.GameObjects.Rectangle;
-  private sliderHandle!: Phaser.GameObjects.Rectangle;
   private predictedTimeText!: Phaser.GameObjects.Text;
   private resultText!: Phaser.GameObjects.Text;
+  private sliderHandle!: Phaser.GameObjects.Rectangle;
   private gravity = 10;
-  private predictedTime = 3;
   private userPrediction = 3;
 
   constructor() {
@@ -32,16 +28,14 @@ export class FreeFallScene extends Phaser.Scene {
 
   create() {
     const { width, height } = this.scale;
-    const payload = this.config.challenge.payload as FreeFallPayload;
     
-    this.gravity = payload.gravity ?? 10;
-    this.predictedTime = Math.sqrt((2 * 45) / this.gravity);
-    this.userPrediction = this.predictedTime;
+    this.gravity = this.config.challenge.payload.gravity ?? 10;
+    this.userPrediction = Math.sqrt((2 * 45) / this.gravity);
     
     this.cameras.main.setBackgroundColor(0x1a1a2e);
     
     this.drawScene(width, height);
-    this.createUI(width, height, payload);
+    this.createUI(width, height);
     
     this.startTime = Date.now();
   }
@@ -52,14 +46,8 @@ export class FreeFallScene extends Phaser.Scene {
     const buildingHeight = 300;
     const buildingY = groundY - buildingHeight;
     
-    const building = this.add.rectangle(
-      centerX, 
-      buildingY + buildingHeight / 2, 
-      60, 
-      buildingHeight, 
-      0x4a4a6a
-    );
-    building.setStrokeStyle(2, 0x6a6a8a);
+    this.add.rectangle(centerX, buildingY + buildingHeight / 2, 60, buildingHeight, 0x4a4a6a)
+      .setStrokeStyle(2, 0x6a6a8a);
 
     const windowsCount = Math.floor(buildingHeight / 40);
     for (let i = 0; i < windowsCount; i++) {
@@ -70,20 +58,19 @@ export class FreeFallScene extends Phaser.Scene {
 
     this.ground = this.add.rectangle(centerX, groundY, width, 20, 0x2d5a27);
     
-    this.heightLine = this.add.line(0, 0, centerX, buildingY, centerX, groundY, 0x666666);
-    this.heightLine.setLineWidth(1, 2);
+    this.add.line(0, 0, centerX, buildingY, centerX, groundY, 0x666666)
+      .setLineWidth(1, 2);
 
-    this.heightText = this.add.text(centerX + 20, buildingY + buildingHeight / 2 - 20, '45m', {
+    this.add.text(centerX + 20, buildingY + buildingHeight / 2 - 20, '45m', {
       fontSize: '18px',
       color: '#ffffff',
-      fontFamily: 'Space Grotesk',
     });
 
     this.object = this.add.circle(centerX, buildingY - 10, 15, 0xff6b6b);
     this.object.setStrokeStyle(2, 0xff8888);
   }
 
-  private createUI(width: number, height: number, payload: FreeFallPayload) {
+  private createUI(width: number, height: number) {
     const panelX = width / 2;
     const panelY = height - 200;
     
@@ -91,10 +78,9 @@ export class FreeFallScene extends Phaser.Scene {
     panel.setStrokeStyle(2, 0x4a4a6a);
     panel.setInteractive(new Phaser.Geom.Rectangle(panelX - 250, panelY - 90, 500, 180));
 
-    const title = this.add.text(panelX, panelY - 70, 'Predice el tiempo de caída:', {
+    this.add.text(panelX, panelY - 70, 'Predice el tiempo de caida:', {
       fontSize: '20px',
       color: '#ffffff',
-      fontFamily: 'Space Grotesk',
     }).setOrigin(0.5);
 
     this.predictedTimeText = this.add.text(panelX, panelY - 20, `${this.userPrediction.toFixed(1)} s`, {
@@ -182,7 +168,7 @@ export class FreeFallScene extends Phaser.Scene {
       duration: actualTime * 1000,
       ease: 'Linear',
       onComplete: () => {
-        this.showResult(isCorrect, actualTime, solution);
+        this.showResult(isCorrect, solution.answer);
         this.config.onComplete({
           score: this.calculateScore(isCorrect, timeTakenMs),
           isCorrect,
@@ -192,20 +178,20 @@ export class FreeFallScene extends Phaser.Scene {
     });
   }
 
-  private showResult(isCorrect: boolean, actualTime: number, solution: FreeFallSolution) {
+  private showResult(isCorrect: boolean, _actualTime: number) {
     const { width, height } = this.scale;
     
     const bgColor = isCorrect ? 0x22c55e : 0xef4444;
     const resultIcon = isCorrect ? '✓' : '✗';
     const resultMessage = isCorrect 
       ? '¡Correcto!' 
-      : `Incorrecto. Tiempo real: ${actualTime.toFixed(1)}s`;
+      : 'Incorrecto. Intentalo de nuevo';
 
     this.cameras.main.flash(200, isCorrect ? 34 : 239, isCorrect ? 68 : 68, isCorrect ? 46 : 68);
 
-    const resultBg = this.add.rectangle(width / 2, height / 2, 400, 200, bgColor, 0.95);
-    resultBg.setStrokeStyle(3, isCorrect ? 0x4ade80 : 0xf87171);
-    resultBg.setInteractive();
+    this.add.rectangle(width / 2, height / 2, 400, 200, bgColor, 0.95)
+      .setStrokeStyle(3, isCorrect ? 0x4ade80 : 0xf87171)
+      .setInteractive();
 
     this.resultText
       .setText(`${resultIcon}\n${resultMessage}`)
