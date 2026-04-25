@@ -31,7 +31,35 @@ export interface ChallengeResult {
   timeTakenMs: number;
 }
 
-export interface TriviaOption {
+export interface EquationChallenge {
   id: string;
-  text: string;
+  title: string;
+  subject: 'chemistry';
+  topic: 'stoichiometry';
+  difficulty: 'easy' | 'medium' | 'hard';
+  kind: 'drag_coefficients';
+  statement: string;
+  payload: EquationPayload;
+  solution: EquationSolution;
+}
+
+export interface EquationPayload {
+  compounds: Compound[];
+  targetCoefficients: number[];
+  mode: 'balance' | 'identify';
+}
+
+export interface Compound {
+  formula: string;
+  elements: Element[];
+}
+
+export interface Element {
+  symbol: string;
+  count: number;
+}
+
+export interface EquationSolution {
+  coefficients: number[];
+  balancedEquation: string;
 }
