@@ -30,3 +30,8 @@ export interface ChallengeResult {
   isCorrect: boolean;
   timeTakenMs: number;
 }
+
+export interface TriviaOption {
+  id: string;
+  text: string;
+}

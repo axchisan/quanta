@@ -1,16 +1,19 @@
-import type { AIResponse, LLMProvider, AIGatewayConfig } from './types.js';
+import { AIGatewayConfig, AIResponse, LLMProvider } from './types.js';
 
 export class AIGateway {
   private providers: LLMProvider[] = [];
   private currentIndex = 0;
+  private _config: AIGatewayConfig;
 
-  constructor(_config: AIGatewayConfig) {}
+  constructor(config: AIGatewayConfig) {
+    this._config = config;
+  }
 
   async complete(_prompt: string): Promise<AIResponse> {
     return {
       content: 'stub response',
-      provider: 'stub',
-      cached: false,
+      model: 'stub-model',
+      finishReason: 'stop',
     };
   }
 
@@ -26,10 +29,12 @@ export class AIGateway {
         this.currentIndex = i;
         return result;
       } catch (error) {
-        errors.push(`${provider.name}: ${error}`);
+        errors.push(`Provider ${i}: ${error}`);
       }
     }
 
     throw new Error(`All providers failed: ${errors.join(', ')}`);
   }
 }
+
+export type { AIGatewayConfig, AIResponse, LLMProvider } from './types.js';
