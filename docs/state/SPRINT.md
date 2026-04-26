@@ -72,4 +72,7 @@ Ver `state/BLOCKERS.md`. **B001 [ESCALATION]** — Node + pnpm no instalados; bl
 
 > Después de cerrar un sprint, mover el contenido completo a `state/CHANGELOG.md` y dejar acá solo una línea de resumen.
 
-(Vacío — Sprint 0 es el primero.)
+| Sprint | Fechas | Estado | Notas |
+|--------|-------|--------|-------|
+| 0 | 2026-04-18 → 2026-04-25 | ✅ DONE | Foundations & scaffolding |
+| 1 | 2026-04-26 → 2026-05-02 | 🚧 IN PROGRESS | MVP Jugable |

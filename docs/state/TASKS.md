@@ -12,112 +12,52 @@
 
 ## Pendientes / En progreso
 
-### T001 — Scaffolding monorepo (pnpm + Turborepo)
-- **Owner:** coordinator
-- **Status:** done
-- **Priority:** P0
-- **Sprint:** 0
-- **BlockedBy:** —
-- **Completed:** 2026-04-25
-
-### T002 — CI básica en GitHub Actions
-- **Owner:** coordinator
-- **Status:** done
-- **Priority:** P0
-- **Sprint:** 0
-- **BlockedBy:** T001
-- **Completed:** 2026-04-25
-- **Description:** Workflow `.github/workflows/ci.yml` que en cada push/PR ejecuta: `pnpm install --frozen-lockfile`, `pnpm lint`, `pnpm typecheck`, `pnpm test`. Cache de pnpm store y Turborepo remoto (opcional).
-- **Acceptance:** PR de prueba pasa por los 4 checks.
-
-### T003 — Skeleton apps/web (Next.js 15)
-- **Owner:** ui-web
-- **Status:** done
-- **Priority:** P0
-- **Sprint:** 0
-- **BlockedBy:** T001
-- **Completed:** 2026-04-25
-- **Description:** `apps/web` con Next.js 15 (App Router), TypeScript estricto, Tailwind v4 configurado, shadcn/ui inicializado, una landing trivial (`<h1>Quanta</h1>`). `apps/web/CLAUDE.md` con detalles internos.
-- **Acceptance:**
-  - `pnpm --filter @quanta/web dev` levanta en localhost:3000 mostrando la landing.
-  - `pnpm --filter @quanta/web build` produce build estática sin errores.
-
-### T004 — Skeleton apps/game-server (Colyseus)
-- **Owner:** backend-realtime
-- **Status:** done
-- **Priority:** P0
-- **Sprint:** 0
-- **BlockedBy:** T001
-- **Completed:** 2026-04-25
-- **Description:** `apps/game-server` con Colyseus + Node 22 + TypeScript estricto. Una room placeholder `LobbyRoom` que acepta conexiones y broadcasts un mensaje cada 5s. Dockerfile listo. `apps/game-server/CLAUDE.md`.
-- **Acceptance:**
-  - `pnpm --filter @quanta/game-server dev` levanta en localhost:2567.
-  - Cliente test (script en `tests/`) se conecta y recibe broadcast.
-
-### T005 — Skeleton packages/game-engine (Phaser)
-- **Owner:** game-engine
-- **Status:** done
-- **Priority:** P0
-- **Sprint:** 0
-- **BlockedBy:** T001
-- **Completed:** 2026-04-25
-- **Description:** `packages/game-engine` con Phaser 3, TypeScript estricto. Una scene placeholder `BootScene` que muestra texto "Quanta Game Engine" y emite evento `engine:ready`. Export desde `index.ts`. `packages/game-engine/CLAUDE.md`.
-- **Acceptance:**
-  - `pnpm --filter @quanta/game-engine build` produce bundle.
-  - Tests vacíos corren (`pnpm --filter @quanta/game-engine test`).
-
-### T006 — Skeleton packages/ai-gateway
-- **Owner:** ai-gateway
-- **Status:** done
-- **Priority:** P0
-- **Sprint:** 0
-- **BlockedBy:** T001
-- **Completed:** 2026-04-25
-- **Description:** `packages/ai-gateway` con TypeScript estricto, Zod, fetch nativo. Estructura de carpetas: `providers/`, `cache/`, `prompts/`, `chain.ts`, `config.ts`. Interfaz pública `AIGateway` definida (sin implementación real todavía, retorna stub). Tests con un mock provider que verifica fallback chain. `packages/ai-gateway/CLAUDE.md`.
-- **Acceptance:**
-  - `pnpm --filter @quanta/ai-gateway test` pasa con test de fallback.
-  - Build sin errores.
-
-### T007 — Skeleton packages/db (esquema + migración inicial)
-- **Owner:** backend-realtime
-- **Status:** done
-- **Priority:** P0
-- **Sprint:** 0
-- **BlockedBy:** T001
-- **Completed:** 2026-04-25
-- **Description:** `packages/db` con Supabase CLI configurado, primera migración `0001_initial_schema.sql` que crea las 8 tablas core (`profiles`, `guest_sessions`, `rooms`, `room_memberships`, `challenges`, `challenge_attempts`, `ai_cache`, `challenge_assets`) según `docs/06-data-model.md`. RLS policies básicas. Seeds vacíos.
-- **Acceptance:**
-  - `pnpm db:start && pnpm db:migrate` levanta Supabase local con esquema.
-  - `pnpm db:gen-types` produce tipos TS válidos en `packages/types/src/db.ts`.
+(Todas las tareas de Sprint 0 completadas. Ver sección "Done".)
 
 ---
 
 ## Done
 
-(Vacío — el sprint apenas arranca.)
+### Sprint 0 — Foundations (2026-04-25)
+| ID | Task | Owner | Status |
+|---|------|-------|--------|
+| T001 | Scaffolding monorepo (pnpm + Turborepo) | coordinator | done |
+| T002 | CI básica en GitHub Actions | coordinator | done |
+| T003 | Skeleton apps/web (Next.js 15) | ui-web | done |
+| T004 | Skeleton apps/game-server (Colyseus) | backend-realtime | done |
+| T005 | Skeleton packages/game-engine (Phaser) | game-engine | done |
+| T006 | Skeleton packages/ai-gateway | ai-gateway | done |
+| T007 | Skeleton packages/db (esquema + migración) | backend-realtime | done |
+
+### Sprint 1 — MVP Jugable (2026-05-02)
+| ID | Task | Owner | Status |
+|---|------|-------|--------|
+| T101 | Reto Caída Libre (simple HTML) | coordinator | done |
+| T102 | Reto Balanceo de Ecuaciones | coordinator | done |
+| T103 | Tipos Trivia IA + stub generator | coordinator | done |
+| T104 | Sistema de puntaje (zustand) | coordinator | done |
+| T105 | Conectar botones de retos a páginas | coordinator | done |
 
 ---
 
 ## Backlog (sin sprint asignado)
 
-> Tasks identificadas pero no priorizadas todavía. El Coordinador las mueve a sprint cuando corresponda.
-
-- **B001** — Configurar Husky + lint-staged en pre-commit.
-- **B002** — Configurar deploy en Coolify para apps/web (auto-deploy on push to main).
-- **B003** — Configurar deploy en Coolify para apps/game-server.
-- **B004** — Configurar Supabase self-hosted en Coolify.
-- **B005** — Implementar auth invitado end-to-end (UI + Edge Function `join-room`).
-- **B006** — Implementar `LobbyPage` (entrar a sala con código).
-- **B007** — Implementar reto Caída Libre (Fase 1).
-- **B008** — Implementar reto Balanceo de Ecuaciones (Fase 1).
-- **B009** — Implementar reto Trivia Mixta IA (Fase 1).
+- **B002** — Configurar deploy en Coolify para apps/web (auto-deploy on push to main). ✅ HECHO
+- **B007** — Implementar reto Caída Libre (Fase 1). ✅ HECHO (simple HTML)
+- **B008** — Implementar reto Balanceo de Ecuaciones (Fase 1). ✅ HECHO
+- **B009** — Implementar reto Trivia Mixta IA (Fase 1). 🔄 PARCIAL (tipos hechos, UI pendiente)
 - **B010** — Configurar Pollinations.ai provider en ai-gateway.
 - **B011** — Configurar Gemini provider en ai-gateway.
 - **B012** — Configurar ElevenLabs / Coqui TTS provider en ai-gateway.
 - **B013** — Implementar cache Supabase para ai-gateway.
 - **B014** — Implementar Edge Function `validate-attempt`.
-- **B015** — Implementar `KahootRoom` Colyseus (Fase 2).
-- **B016** — Implementar `DuelRoom` Colyseus (Fase 2).
-- **B017** — Implementar UI de creador de retos (Fase 3).
-- **B018** — Implementar PWA manifest + service worker (Fase 4).
-- **B019** — Configurar Capacitor para Android (Fase 4).
+- **B015** — Configurar Colyseus server en Coolify.
+- **B016** — Implementar UI de lobby/salas.
+- **B017** — Implementar PWA manifest + service worker (Fase 4).
+- **B018** — Configurar Capacitor para Android (Fase 4).
+
+## Tareas próximas para Sprint 1
+
+1. **Más retos jugables** — Agregar más desafíos de ejemplo
+2. **Integrar Supabase** — Conectar retos a DB real
+3. **Chat/Audio IA** — Feedback con IA en resultados

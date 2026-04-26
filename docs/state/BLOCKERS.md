@@ -10,10 +10,6 @@
 
 ## Activos
 
-(Ninguno.)
-
----
-
 ## Resueltos recientes
 
 ### B001 — Tooling Node + pnpm no instalado — **RESUELTO 2026-04-19**
