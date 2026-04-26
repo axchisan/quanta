@@ -1,79 +1,124 @@
 'use client';
 
-import { useState } from 'react';
-import { FreeFallGame } from '@/components/game';
-import type { FreeFallChallenge, ChallengeResult, FreeFallPayload, FreeFallSolution } from '@/lib/game/types';
+import { useState, useCallback } from 'react';
+import Link from 'next/link';
 
-const sampleChallenge: FreeFallChallenge = {
+interface Challenge {
+  id: string;
+  title: string;
+  statement: string;
+  answer: number;
+  tolerance: number;
+  formula: string;
+}
+
+const sampleChallenge: Challenge = {
   id: '1',
   title: 'Caída Libre: Altura del Edificio',
-  subject: 'physics',
-  topic: 'kinematics',
-  difficulty: 'easy',
-  kind: 'numeric_input',
   statement: 'Un objeto se deja caer desde un edificio de 45 metros de altura. ¿En cuántos segundos llegará al suelo? (Usa g = 10 m/s²)',
-  payload: {
-    gravity: 10,
-    hasGravityField: true,
-    heightMode: 'fixed',
-    fallTime: true,
-  } as FreeFallPayload,
-  solution: {
-    answer: 3,
-    tolerance: 0.5,
-    formula: 't = √(2h/g)',
-  } as FreeFallSolution,
+  answer: 3,
+  tolerance: 0.5,
+  formula: 't = √(2h/g) = √(90/10) = √9 = 3s',
 };
 
 export default function PlayPage() {
-  const [gameState, setGameState] = useState<'playing' | 'complete'>('playing');
-  const [result, setResult] = useState<ChallengeResult | null>(null);
+  const [userAnswer, setUserAnswer] = useState('');
+  const [showResult, setShowResult] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
 
-  const handleComplete = (gameResult: ChallengeResult) => {
-    setResult(gameResult);
-    setGameState('complete');
-  };
+  const handleSubmit = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    const userNum = parseFloat(userAnswer);
+    const diff = Math.abs(userNum - sampleChallenge.answer);
+    const correct = diff <= sampleChallenge.tolerance;
+    
+    setIsCorrect(correct);
+    setShowResult(true);
+  }, [userAnswer]);
 
-  const handleRetry = () => {
-    setResult(null);
-    setGameState('playing');
-  };
+  const handleRetry = useCallback(() => {
+    setUserAnswer('');
+    setShowResult(false);
+    setIsCorrect(false);
+  }, []);
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-950 via-slate-900 to-slate-950 p-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-2xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-white mb-2">{sampleChallenge.title}</h1>
-          <p className="text-slate-300">{sampleChallenge.statement}</p>
+          <Link href="/challenges" className="text-blue-400 hover:text-blue-300 text-sm">
+            ← Volver a desafíos
+          </Link>
+          <h1 className="text-3xl font-bold text-white mt-2">{sampleChallenge.title}</h1>
+          <p className="text-slate-300 mt-2">{sampleChallenge.statement}</p>
         </div>
 
-        {gameState === 'playing' ? (
-          <FreeFallGame challenge={sampleChallenge} onComplete={handleComplete} />
+        {!showResult ? (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-slate-400 mb-2">
+                Tu respuesta (segundos):
+              </label>
+              <input
+                type="number"
+                step="0.1"
+                value={userAnswer}
+                onChange={(e) => setUserAnswer(e.target.value)}
+                placeholder="ej: 3.0"
+                className="w-full px-4 py-3 bg-slate-800 border border-slate-600 rounded-xl text-white text-xl text-center focus:border-blue-500 focus:outline-none"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all"
+            >
+              Verificar Respuesta
+            </button>
+
+            <div className="bg-slate-800/50 p-4 rounded-lg">
+              <p className="text-slate-400 text-sm">
+                Fórmula: <code className="text-blue-400">{sampleChallenge.formula}</code>
+              </p>
+            </div>
+          </form>
         ) : (
-          <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-8 border border-slate-700 text-center">
-            <div className={`text-6xl mb-4 ${result?.isCorrect ? 'text-green-400' : 'text-red-400'}`}>
-              {result?.isCorrect ? '✓' : '✗'}
+          <div className={`rounded-2xl p-8 border text-center ${
+            isCorrect 
+              ? 'bg-green-900/30 border-green-600' 
+              : 'bg-red-900/30 border-red-600'
+          }`}>
+            <div className={`text-6xl mb-4 ${isCorrect ? 'text-green-400' : 'text-red-400'}`}>
+              {isCorrect ? '✓' : '✗'}
             </div>
-            <h2 className={`text-3xl font-bold mb-4 ${result?.isCorrect ? 'text-green-400' : 'text-red-400'}`}>
-              {result?.isCorrect ? '¡Correcto!' : 'Incorrecto'}
+            <h2 className={`text-3xl font-bold mb-4 ${isCorrect ? 'text-green-400' : 'text-red-400'}`}>
+              {isCorrect ? '¡Correcto!' : 'Incorrecto'}
             </h2>
-            <div className="text-slate-300 space-y-2 mb-8">
-              <p>Puntaje: <span className="text-2xl font-bold text-white">{result?.score}</span></p>
-              <p>Tiempo: <span className="text-white">{((result?.timeTakenMs ?? 0) / 1000).toFixed(1)}s</span></p>
-            </div>
+            
+            {!isCorrect && (
+              <p className="text-slate-300 mb-4">
+                La respuesta correcta es: <span className="text-white font-bold">{sampleChallenge.answer} segundos</span>
+              </p>
+            )}
+            
+            <p className="text-slate-400 text-sm mb-6">
+              {sampleChallenge.formula}
+            </p>
+
             <div className="flex gap-4 justify-center">
               <button
                 onClick={handleRetry}
-                className="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all"
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all"
               >
                 Reintentar
               </button>
-              <a
+              <Link
                 href="/challenges"
-                className="px-8 py-3 bg-slate-700 hover:bg-slate-600 text-white font-semibold rounded-xl transition-all"
+                className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white font-semibold rounded-xl transition-all"
               >
                 Volver a Retos
-              </a>
+              </Link>
             </div>
           </div>
         )}
