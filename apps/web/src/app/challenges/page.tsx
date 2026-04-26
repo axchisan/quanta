@@ -11,62 +11,76 @@ interface Challenge {
   statement: string;
 }
 
-async function getChallenges(): Promise<Challenge[]> {
-  // Placeholder - will connect to Supabase later
-  return [
-    {
-      id: '1',
-      title: 'Caída Libre: Altura del Edificio',
-      subject: 'physics',
-      topic: 'kinematics',
-      difficulty: 'easy',
-      kind: 'numeric_input',
-      statement: 'Un objeto se deja caer desde un edificio de 45 metros...',
-    },
-    {
-      id: '2',
-      title: 'Balancea: Agua',
-      subject: 'chemistry',
-      topic: 'equation_balance',
-      difficulty: 'easy',
-      kind: 'drag_drop',
-      statement: 'Balancea la siguiente ecuación: H₂ + O₂ → H₂O',
-    },
-  ];
-}
+const fallbackChallenges: Challenge[] = [
+  {
+    id: 'freefall-1',
+    title: 'Caída Libre: Altura del Edificio',
+    subject: 'physics',
+    topic: 'kinematics',
+    difficulty: 'easy',
+    kind: 'numeric_input',
+    statement: 'Un objeto se deja caer desde 45m. g=10m/s². ¿Tiempo?',
+  },
+  {
+    id: 'equation-1',
+    title: 'Balancea: H₂ + O₂ → H₂O',
+    subject: 'chemistry',
+    topic: 'stoichiometry',
+    difficulty: 'easy',
+    kind: 'drag_coefficients',
+    statement: 'Balancea la ecuación: H₂ + O₂ → H₂O',
+  },
+  {
+    id: 'freefall-2',
+    title: 'Caída Libre: Torre de 20m',
+    subject: 'physics',
+    topic: 'kinematics',
+    difficulty: 'medium',
+    kind: 'numeric_input',
+    statement: 'Desde 20m de altura. g=10m/s². ¿Velocidad final?',
+  },
+  {
+    id: 'equation-2',
+    title: 'Balancea: N₂ + H₂ → NH₃',
+    subject: 'chemistry',
+    topic: 'stoichiometry',
+    difficulty: 'medium',
+    kind: 'drag_coefficients',
+    statement: 'Balancea: N₂ + H₂ → NH₃ (Haber)',
+  },
+];
 
 function ChallengeCard({ challenge }: { challenge: Challenge }) {
-  const subjectColors = {
+  const subjectColors: Record<string, string> = {
     physics: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
     chemistry: 'bg-green-500/20 text-green-400 border-green-500/30',
-    mixed: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
   };
 
-  const difficultyColors = {
+  const difficultyColors: Record<string, string> = {
     easy: 'text-green-400',
     medium: 'text-yellow-400',
     hard: 'text-red-400',
   };
 
+  const gameUrl = challenge.kind === 'numeric_input' 
+    ? `/play/${challenge.id}` 
+    : '/equation';
+
   return (
-    <div className="bg-slate-800/50 backdrop-blur rounded-xl p-6 border border-slate-700 hover:border-blue-500/50 transition-all">
-      <div className="flex items-center gap-2 mb-3">
-        <span className={`px-2 py-1 rounded-full text-xs border ${subjectColors[challenge.subject as keyof typeof subjectColors]}`}>
-          {challenge.subject}
-        </span>
-        <span className={`text-xs ${difficultyColors[challenge.difficulty as keyof typeof difficultyColors]}`}>
-          {challenge.difficulty}
-        </span>
+    <Link href={gameUrl}>
+      <div className="bg-slate-800/50 backdrop-blur rounded-xl p-6 border border-slate-700 hover:border-blue-500/50 transition-all cursor-pointer">
+        <div className="flex items-center gap-2 mb-3">
+          <span className={`px-2 py-1 rounded-full text-xs border ${subjectColors[challenge.subject]}`}>
+            {challenge.subject}
+          </span>
+          <span className={`text-xs ${difficultyColors[challenge.difficulty]}`}>
+            {challenge.difficulty}
+          </span>
+        </div>
+        <h3 className="text-lg font-semibold text-white mb-2">{challenge.title}</h3>
+        <p className="text-slate-400 text-sm">{challenge.statement}</p>
       </div>
-      <h3 className="text-lg font-semibold text-white mb-2">{challenge.title}</h3>
-      <p className="text-slate-400 text-sm">{challenge.statement}</p>
-      <Link 
-          href={challenge.kind === 'numeric_input' ? `/play/${challenge.id}` : `/equation`}
-          className="mt-4 w-full py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-lg transition-colors block text-center"
-        >
-          Jugar
-        </Link>
-    </div>
+    </Link>
   );
 }
 
@@ -81,11 +95,9 @@ function ChallengeSkeleton() {
 }
 
 async function ChallengeList() {
-  const challenges = await getChallenges();
-
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {challenges.map((challenge) => (
+      {fallbackChallenges.map((challenge) => (
         <ChallengeCard key={challenge.id} challenge={challenge} />
       ))}
     </div>
@@ -103,7 +115,7 @@ export default function ChallengesPage() {
 
         <Suspense fallback={
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {[1, 2, 3, 4, 5, 6].map((i) => <ChallengeSkeleton key={i} />)}
+            {[1, 2, 3, 4].map((i) => <ChallengeSkeleton key={i} />)}
           </div>
         }>
           <ChallengeList />
