@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Suspense } from 'react';
 
 interface Challenge {
@@ -59,9 +60,12 @@ function ChallengeCard({ challenge }: { challenge: Challenge }) {
       </div>
       <h3 className="text-lg font-semibold text-white mb-2">{challenge.title}</h3>
       <p className="text-slate-400 text-sm">{challenge.statement}</p>
-      <button className="mt-4 w-full py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-lg transition-colors">
-        Jugar
-      </button>
+      <Link 
+          href={challenge.kind === 'numeric_input' ? `/play/${challenge.id}` : `/equation`}
+          className="mt-4 w-full py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-lg transition-colors block text-center"
+        >
+          Jugar
+        </Link>
     </div>
   );
 }
